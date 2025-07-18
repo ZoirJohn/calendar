@@ -15,18 +15,18 @@ export const EventTable = pgTable(
                 name: text('name').notNull(),
                 description: text('description'),
                 durationInMinutes: integer('durationInMinutes').notNull(),
-                clearkUserId: uuid('clerkUserId').notNull(),
+                clerkUserId: text('clerkUserId').notNull(),
                 isActive: boolean('isActive').notNull().default(true),
                 createdAt,
                 updatedAt,
         },
-        (table) => [index('clerkUserIdIndex').on(table.clearkUserId)]
+        (table) => [index('clerkUserIdIndex').on(table.clerkUserId)]
 )
 
 export const SchedulesTable = pgTable('schedules', {
         id: uuid('id').primaryKey().defaultRandom(),
         timezone: text('timezone').notNull(),
-        clerkUserId: uuid('clerkUserId').notNull().unique(),
+        clerkUserId: text('clerkUserId').notNull().unique(),
         createdAt,
         updatedAt,
 })
