@@ -8,12 +8,11 @@ import z from 'zod'
 import { Switch } from '../ui/switch'
 import { AlertDialog, AlertDialogFooter, AlertDialogHeader, AlertDialogTrigger, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogTitle } from '../ui/alert-dialog'
 import { Button } from '../ui/button'
-import Link from 'next/link'
 import { useTransition } from 'react'
-import createEvent from '@/server/actions/createEvent'
-import updateEvent from '@/server/actions/updateEvent'
-import deleteEvent from '@/server/actions/deleteEvent'
+import { createEvent, deleteEvent, updateEvent } from '@/server/actions/events'
 import { Textarea } from '../ui/textarea'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 export default function EventForm({
         event,
@@ -39,10 +38,12 @@ export default function EventForm({
                                   description: '',
                           },
         })
+        const router = useRouter()
         async function onSubmit(values: z.infer<typeof eventFormSchema>) {
                 const action = event == null ? createEvent : updateEvent.bind(null, event.id)
                 try {
                         await action(values)
+                        router.push('/events')
                 } catch (error) {
                         form.setError('root', { message: `There was an error submitting your event: ${error}` })
                 }
