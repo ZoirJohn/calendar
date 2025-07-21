@@ -12,7 +12,7 @@ import { useTransition } from 'react'
 import { createEvent, deleteEvent, updateEvent } from '@/server/actions/events'
 import { Textarea } from '../ui/textarea'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 
 export default function EventForm({
         event,
@@ -25,6 +25,7 @@ export default function EventForm({
                 isActive: boolean
         }
 }) {
+        const router = useRouter()
         const form = useForm<z.infer<typeof eventFormSchema>>({
                 resolver: zodResolver(eventFormSchema) as any,
                 defaultValues: event
@@ -38,7 +39,6 @@ export default function EventForm({
                                   description: '',
                           },
         })
-        const router = useRouter()
         async function onSubmit(values: z.infer<typeof eventFormSchema>) {
                 const action = event == null ? createEvent : updateEvent.bind(null, event.id)
                 try {
