@@ -1,5 +1,8 @@
 import { db } from '@/drizzle/db'
+import { EventTable } from '@/drizzle/schema'
 import { NextResponse } from 'next/server'
+
+export type TEvent = typeof EventTable.$inferSelect
 
 export async function GET(request: Request, { params }: { params: Promise<{ userId: string }> }) {
         const { userId } = await params
