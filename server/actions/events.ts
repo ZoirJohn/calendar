@@ -19,7 +19,6 @@ export async function createEvent(unsafeData: z.infer<typeof eventFormSchema>) {
 
                 await db.insert(EventTable).values({ ...data, clerkUserId: userId })
         } catch (error) {
-                console.error('Shit is happening here' + error)
                 throw new Error('Failed to create the event: ' + error)
         } finally {
                 revalidatePath('/events')

@@ -28,7 +28,7 @@ export default async function Events() {
                                         </Link>
                                 </Button>
                         </div>
-                        <div className='grid grid-cols-4 gap-4'>
+                        <div className='grid grid-cols-4 gap-4 w-9/10 mx-auto'>
                                 {events.length ? (
                                         events.map((event: TEvent) => (
                                                 <EventCard

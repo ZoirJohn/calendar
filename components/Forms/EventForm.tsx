@@ -4,15 +4,15 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
 import { Input } from '../ui/input'
 import { useForm } from 'react-hook-form'
-import z from 'zod'
 import { Switch } from '../ui/switch'
 import { AlertDialog, AlertDialogFooter, AlertDialogHeader, AlertDialogTrigger, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogTitle } from '../ui/alert-dialog'
 import { Button } from '../ui/button'
 import { useTransition } from 'react'
 import { createEvent, deleteEvent, updateEvent } from '@/server/actions/events'
 import { Textarea } from '../ui/textarea'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import z from 'zod'
+import Link from 'next/link'
 
 export default function EventForm({
         event,
@@ -130,7 +130,7 @@ export default function EventForm({
                                                                 className='cursor-pointer'
                                                                 variant='destructive'
                                                                 disabled={isDeletePending || form.formState.isSubmitting}
-                                                        ></Button>
+                                                        >Delete</Button>
                                                 </AlertDialogTrigger>
                                                 <AlertDialogContent>
                                                         <AlertDialogHeader>
@@ -143,6 +143,7 @@ export default function EventForm({
                                                                                 startDeleteTransition(async () => {
                                                                                         try {
                                                                                                 await deleteEvent(event.id)
+                                                                                                router.push('/events')
                                                                                         } catch (error) {
                                                                                                 form.setError('root', { message: `There was an error deleting your event: ${error}` })
                                                                                         }
