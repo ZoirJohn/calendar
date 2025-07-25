@@ -5,6 +5,7 @@ import {scheduleFormSchema} from "@/schema/scheduleFormSchema";
 import {DAYS_OF_WEEK_IN_ORDER} from "@/constants";
 import z from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
+import { timeToFloat } from "@/lib/utils";
 
 type Availability = {
 	startTime: string;
