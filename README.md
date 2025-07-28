@@ -63,7 +63,7 @@ GOOGLE_CLIENT_ID="your_google_client_id"
 GOOGLE_CLIENT_SECRET="your_google_client_secret"
 
 # App Configuration
-NEXT_PUBLIC_APP_URL="http://localhost:3000"
+NEXT_PUBLIC_BASE_URL="http://localhost:3000"
 ```
 
 5. Run database migrations:

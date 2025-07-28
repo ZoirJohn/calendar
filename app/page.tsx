@@ -6,5 +6,5 @@ export default async function Home() {
         const user = await currentUser()
         if (!user) return <Landing />
 
-        return redirect('/events')
+        return <div></div>
 }
