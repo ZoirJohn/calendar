@@ -2,6 +2,7 @@ import type {Metadata} from "next";
 import "./globals.css";
 import {ClerkProvider} from "@clerk/nextjs";
 import {Inter} from "next/font/google";
+import { currentUser } from "@clerk/nextjs/server";
 
 export const metadata: Metadata = {
 	title: "Calendar",
@@ -12,7 +13,7 @@ const inter = Inter({
 	variable: "--font-inter",
 	weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
-export default function RootLayout({
+export default async function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
