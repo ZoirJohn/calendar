@@ -1,11 +1,16 @@
 "use client";
-import {useForm} from "react-hook-form";
+import {useFieldArray, useForm} from "react-hook-form";
 import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "../ui/form";
 import {scheduleFormSchema} from "@/schema/schedule";
 import {DAYS_OF_WEEK_IN_ORDER} from "@/constants";
 import z from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {timeToFloat} from "@/lib/utils";
+import {formatTimezoneOffset, timeToFloat} from "@/lib/utils";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "../ui/select";
+import {Plus, X} from "lucide-react";
+import {Fragment} from "react";
+import {Button} from "../ui/button";
+import {Input} from "../ui/input";
 
 type Availability = {
 	startTime: string;
@@ -25,35 +30,164 @@ export default function ScheduleForm({schedule}: {schedule?: {timezone: string; 
 		},
 	});
 	async function onSubmit(values: z.infer<typeof scheduleFormSchema>) {}
+
+	const {
+		append: addAvailability,
+		remove: removeAvailability,
+		fields: availabilityFields,
+	} = useFieldArray({name: "availabilities", control: form.control});
+
+	const groupedAvailabilityFields = Object.groupBy(
+		availabilityFields.map((field, index) => ({...field, index})),
+		(availability) => availability.dayOfWeek
+	);
 	return (
 		<Form {...form}>
-			<form onSubmit={form.handleSubmit(onSubmit)}>
+			<form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6">
 				{form.formState.errors.root && (
 					<div className='text-sm text-destructive'>{form.formState.errors.root.message}</div>
 				)}
 				<FormField
 					name='timezone'
-					control={form.control}
 					render={({field}) => (
 						<FormItem>
 							<FormLabel>Timezone</FormLabel>
-							{/* <Select></Select> */}
+							<Select
+								onValueChange={field.onChange}
+								defaultValue={field.value}>
+								<FormControl>
+									<SelectTrigger>
+										<SelectValue />
+									</SelectTrigger>
+								</FormControl>
+								<SelectContent>
+									{Intl.supportedValuesOf("timeZone").map((timezone) => (
+										<SelectItem
+											key={timezone}
+											value={timezone}>
+											{timezone}
+											{`(${formatTimezoneOffset(timezone)})`}
+										</SelectItem>
+									))}
+								</SelectContent>
+							</Select>
 							<FormDescription>The name users will see when booking</FormDescription>
 							<FormMessage />
 						</FormItem>
 					)}></FormField>
 
-				<FormField
-					name='availabilities'
-					control={form.control}
-					render={({field}) => (
-						<FormItem>
-							<FormLabel>Timezone</FormLabel>
-							{/* <Select></Select> */}
-							<FormDescription>The name users will see when booking</FormDescription>
-							<FormMessage />
-						</FormItem>
-					)}></FormField>
+				<div className='grid grid-cols-[auto_auto]  gap-y-6'>
+					{DAYS_OF_WEEK_IN_ORDER.map((dayOfWeek) => (
+						<Fragment key={dayOfWeek}>
+							{/* Day label */}
+							<div className='capitalize text-sm font-semibold'>
+								{dayOfWeek.substring(0, 3)}
+							</div>
+
+							{/* Add availability for a specific day */}
+							<div className='flex flex-col gap-2'>
+								<Button
+									type='button'
+									className='size-6 p-1 cursor-pointer'
+									variant='outline'
+									onClick={() => {
+										addAvailability({
+											dayOfWeek,
+											startTime: "9:00",
+											endTime: "17:00",
+										});
+									}}>
+									<Plus color='red' />
+								</Button>
+
+								{/* Render availability entries for this day */}
+								{groupedAvailabilityFields[dayOfWeek]?.map((field, labelIndex) => (
+									<div
+										className='flex flex-col gap-1'
+										key={field.id}>
+										<div className='flex gap-2 items-center'>
+											{/* Start time input */}
+											<FormField
+												control={form.control}
+												name={`availabilities.${field.index}.startTime`}
+												render={({field}) => (
+													<FormItem>
+														<FormControl>
+															<Input
+																className='w-24'
+																aria-label={`${dayOfWeek} Start Time ${
+																	labelIndex + 1
+																}`}
+																{...field}
+															/>
+														</FormControl>
+													</FormItem>
+												)}
+											/>
+											-{/* End time input */}
+											<FormField
+												control={form.control}
+												name={`availabilities.${field.index}.endTime`}
+												render={({field}) => (
+													<FormItem>
+														<FormControl>
+															<Input
+																className='w-24'
+																aria-label={`${dayOfWeek} End Time ${
+																	labelIndex + 1
+																}`}
+																{...field}
+															/>
+														</FormControl>
+													</FormItem>
+												)}
+											/>
+											{/* Remove availability */}
+											<Button
+												type='button'
+												className='size-6 p-1 cursor-pointer hover:bg-red-900'
+												variant='destructive'
+												onClick={() => removeAvailability(field.index)}>
+												<X />
+											</Button>
+										</div>
+
+										{/* Show field-level validation messages */}
+										<FormMessage>
+											{
+												form.formState.errors.availabilities?.at?.(
+													field.index
+												)?.root?.message
+											}
+										</FormMessage>
+										<FormMessage>
+											{
+												form.formState.errors.availabilities?.at?.(
+													field.index
+												)?.startTime?.message
+											}
+										</FormMessage>
+										<FormMessage>
+											{
+												form.formState.errors.availabilities?.at?.(
+													field.index
+												)?.endTime?.message
+											}
+										</FormMessage>
+									</div>
+								))}
+							</div>
+						</Fragment>
+					))}
+				</div>
+				<div className='flex gap-2 justify-start'>
+					<Button
+						className='cursor-pointer hover:scale-105 bg-blue-400 hover:bg-blue-600'
+						disabled={form.formState.isSubmitting}
+						type='submit'>
+						Save
+					</Button>
+				</div>
 			</form>
 		</Form>
 	);

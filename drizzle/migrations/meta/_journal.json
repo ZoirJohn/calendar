@@ -15,6 +15,13 @@
       "when": 1752855697475,
       "tag": "0001_motionless_shadowcat",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1753800549098,
+      "tag": "0002_steady_dragon_man",
+      "breakpoints": true
     }
   ]
 }

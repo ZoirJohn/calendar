@@ -23,7 +23,7 @@ export const EventTable = pgTable(
         (table) => [index('clerkUserIdIndex').on(table.clerkUserId)]
 )
 
-export const SchedulesTable = pgTable('schedules', {
+export const ScheduleTable = pgTable('schedule', {
         id: uuid('id').primaryKey().defaultRandom(),
         timezone: text('timezone').notNull(),
         clerkUserId: text('clerkUserId').notNull().unique(),
@@ -31,18 +31,18 @@ export const SchedulesTable = pgTable('schedules', {
         updatedAt,
 })
 
-export const scheduleRelations = relations(SchedulesTable, ({ many }) => ({
-        availabilities: many(SchedulesAvailabilityTable),
+export const scheduleRelations = relations(ScheduleTable, ({ many }) => ({
+        availabilities: many(ScheduleAvailabilityTable),
 }))
 
 export const scheduleDayOfWeekEnum = pgEnum('day', DAYS_OF_WEEK_IN_ORDER)
-export const SchedulesAvailabilityTable = pgTable(
+export const ScheduleAvailabilityTable = pgTable(
         'scheduleAvailabilities',
         {
                 id: uuid('id').primaryKey().defaultRandom(),
                 scheduleId: uuid('scheduleId')
                         .notNull()
-                        .references(() => SchedulesTable.id, { onDelete: 'cascade' }),
+                        .references(() => ScheduleTable.id, { onDelete: 'cascade' }),
                 startTime: text('startTime').notNull(),
                 endTime: text('endTime').notNull(),
                 dayOfWeek: scheduleDayOfWeekEnum('dayOfTheWeek').notNull(),
@@ -50,9 +50,9 @@ export const SchedulesAvailabilityTable = pgTable(
         (table) => [index('scheduleIdIndex').on(table.scheduleId)]
 )
 
-export const scheduleAvailabilityRelations = relations(SchedulesAvailabilityTable, ({ one }) => ({
-        schedule: one(SchedulesTable, {
-                fields: [SchedulesAvailabilityTable.scheduleId],
-		references: [SchedulesTable.id],
+export const scheduleAvailabilityRelations = relations(ScheduleAvailabilityTable, ({ one }) => ({
+        schedule: one(ScheduleTable, {
+                fields: [ScheduleAvailabilityTable.scheduleId],
+		references: [ScheduleTable.id],
         }),
 }))

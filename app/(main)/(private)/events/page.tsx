@@ -37,17 +37,9 @@ export default async function Events() {
 						/>
 					))
 				) : (
-					<div className='flex flex-col items-center gap-4'>
+					<div className='flex flex-col text-center col-start-2 col-end-4 gap-4'>
 						<CalendarRange className='size-16 mx-auto text-black' />
 						You do not have any events yet. Create your first event to get started!
-						<Button
-							className='h-full px-4 py-2 font-bold text-white bg-blue-500 border cursor-pointer hover:bg-blue-700'
-							asChild>
-							<Link href='/events/new'>
-								<CalendarPlus />
-								Create Event
-							</Link>
-						</Button>
 					</div>
 				)}
 			</div>

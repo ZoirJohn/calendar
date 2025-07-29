@@ -11,7 +11,7 @@ export default async function Schedule() {
 	return (
 		<Card className='max-w-md py-6 mx-auto border-8 border-blue-200 shadow-xl'>
 			<CardHeader>
-				<CardTitle>New Event</CardTitle>
+				<CardTitle>Schedule</CardTitle>
 			</CardHeader>
 			<CardContent className=''>
 				<ScheduleForm />

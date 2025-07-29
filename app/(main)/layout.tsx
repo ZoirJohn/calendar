@@ -1,6 +1,6 @@
 import PrivateNavBar from "@/components/PrivateNavBar";
 import PublicNavBar from "@/components/PublicNavBar";
-import { auth, currentUser } from "@clerk/nextjs/server";
+import {auth} from "@clerk/nextjs/server";
 import {ReactNode} from "react";
 
 export default async function MainLayout({children}: {children: ReactNode}) {
