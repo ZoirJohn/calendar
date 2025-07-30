@@ -1,3 +1,14 @@
+'use client';
+import { useUser } from '@clerk/nextjs';
+import { redirect } from 'next/navigation';
+
 export default function Book() {
-        return <h1>BookPage</h1>
+        const { user, isLoaded } = useUser();
+        if (!isLoaded) {
+                return <div>Loading...</div>;
+        }
+        if (!user) {
+                return redirect('/login');
+        }
+        return redirect(`/book/${user.id}`);
 }

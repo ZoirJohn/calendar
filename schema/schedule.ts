@@ -7,7 +7,7 @@ export const scheduleFormSchema = z.object({
         availabilities: z
                 .array(
                         z.object({
-                                startTime: z.string().regex(/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/, 'Time must be in HH:MM format'),
+                                startTime: z.string().regex(/^([0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/, 'Time must be in HH:MM format'),
                                 endTime: z.string().regex(/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/, 'Time must be in HH:MM format'),
                                 dayOfWeek: z.enum(DAYS_OF_WEEK_IN_ORDER),
                         })

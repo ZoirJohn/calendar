@@ -12,5 +12,5 @@ export async function GET(request: NextRequest, {params}: {params: Promise<{user
 			availabilities: true,
 		},
 	})!;
-	return NextResponse.json({schedule: JSON.stringify(schedule)});
+	return NextResponse.json({schedule});
 }
