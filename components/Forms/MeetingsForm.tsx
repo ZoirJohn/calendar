@@ -61,9 +61,9 @@ export default function MeetingForm({
                         const path = `/book/${meetingData.clerkUserId}/${meetingData.eventId}/success?startTime=${meetingData.startTime.toISOString()}`;
                         router.push(path)
         
-                } catch (error: any) {
+                } catch (error) {
                 form.setError("root", {
-                        message: `There was an unknown error saving your event ${error.message}`,
+                        message: `There was an unknown error saving your event ${error}`,
                 })
                 }
         }

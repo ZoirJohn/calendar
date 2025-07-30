@@ -2,7 +2,6 @@ import type {Metadata} from "next";
 import "./globals.css";
 import {ClerkProvider} from "@clerk/nextjs";
 import {Inter} from "next/font/google";
-import { currentUser } from "@clerk/nextjs/server";
 
 export const metadata: Metadata = {
 	title: "Calendar",

@@ -1,6 +1,5 @@
-import {TEvent} from "@/app/api/events/[userId]/route";
 import EventForm from "@/components/Forms/EventForm";
-import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default async function Edit({params}: {params: Promise<{eventId: string}>}) {
 	const {eventId} = await params;

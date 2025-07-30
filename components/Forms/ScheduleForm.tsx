@@ -33,9 +33,9 @@ export default function ScheduleForm({ schedule }: { schedule?: { timezone: stri
         async function onSubmit(values: z.infer<typeof scheduleFormSchema>) {
                 try {
                         await saveSchedule(values);
-                } catch (error: any) {
+                } catch (error) {
                         form.setError('root', {
-                                message: `There was an error saving your schedule${error.message}`,
+                                message: `There was an error saving your schedule${error}`,
                         });
                 }
         }
