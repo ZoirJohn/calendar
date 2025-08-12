@@ -1,205 +1,155 @@
-# Calendar App
+# 📅 Calendar App
 
-A modern, full-stack calendar application that allows users to create, participate in, and manage events seamlessly. Built with Next.js and integrated with Google Calendar API for synchronization across platforms.
+A modern, full-stack calendar application that lets you create, join, and manage events effortlessly. With real-time updates, Google Calendar integration, and a sleek responsive design, staying organized has never been easier.
 
-## Features
+## ✨ Features
 
-- **Event Management**: Create, edit, and delete events with detailed information
-- **Event Participation**: Join and leave events with real-time updates
-- **Google Calendar Integration**: Sync events with your Google Calendar
-- **User Authentication**: Secure user registration and login
-- **Responsive Design**: Works seamlessly on desktop and mobile devices
-- **Real-time Updates**: Live event updates and notifications
-- **Event Discovery**: Browse and search for public events
+* Create, edit, and delete events with rich details
+* Join and leave events with instant updates
+* Sync events seamlessly with Google Calendar
+* Secure authentication and user management
+* Browse and search public events
+* Mobile-first, responsive UI for all devices
+* Real-time notifications for event changes
 
-## Tech Stack
+## 🛠 Tech Stack
 
-- **Frontend**: Next.js 14 with App Router
-- **Database**: Neon (PostgreSQL)
-- **ORM**: Drizzle ORM
-- **Authentication**: NextAuth.js
-- **External API**: Google Calendar API
-- **Styling**: Tailwind CSS
-- **Deployment**: Vercel
+* **Frontend:** Next.js 14 (App Router)
+* **Database:** Neon (PostgreSQL)
+* **ORM:** Drizzle ORM
+* **Authentication:** NextAuth.js
+* **External API:** Google Calendar API
+* **Styling:** Tailwind CSS
+* **Deployment:** Vercel
 
-## Prerequisites
+## 📋 Prerequisites
 
-Before running this application, make sure you have:
+* Node.js 18+
+* Neon database account
+* Google Cloud Console project with Calendar API enabled
+* Google OAuth 2.0 credentials
 
-- Node.js 18+ installed
-- A Neon database account
-- Google Cloud Console project with Calendar API enabled
-- Google OAuth 2.0 credentials
+## ⚙ Installation
 
-## Installation
-
-1. Clone the repository:
 ```bash
+# 1. Clone the repository
 git clone https://github.com/yourusername/calendar-app.git
 cd calendar-app
-```
 
-2. Install dependencies:
-```bash
+# 2. Install dependencies
 npm install
-```
 
-3. Set up environment variables:
-```bash
+# 3. Configure environment variables
 cp .env.example .env.local
-```
+# Edit .env.local with your credentials
 
-4. Configure your environment variables in `.env.local`:
-```env
-# Database
-DATABASE_URL="your_neon_database_url"
-
-# NextAuth
-NEXTAUTH_URL="http://localhost:3000"
-NEXTAUTH_SECRET="your_nextauth_secret"
-
-# Google OAuth & Calendar API
-GOOGLE_CLIENT_ID="your_google_client_id"
-GOOGLE_CLIENT_SECRET="your_google_client_secret"
-
-# App Configuration
-NEXT_PUBLIC_BASE_URL="http://localhost:3000"
-```
-
-5. Run database migrations:
-```bash
+# 4. Push database schema
 npm run db:push
-```
 
-6. Start the development server:
-```bash
+# 5. Start the development server
 npm run dev
 ```
 
-Visit `http://localhost:3000` to see the application.
+Visit **[http://localhost:3000](http://localhost:3000)** to explore the app.
 
-## Database Schema
+## 🗄 Database Schema
 
-The application uses the following main tables:
+* **users** – Authentication and profile data
+* **events** – Event details
+* **event\_participants** – Many-to-many relationship between users & events
+* **google\_calendar\_sync** – Tracks synchronization with Google Calendar
 
-- **users**: User authentication and profile information
-- **events**: Event details and metadata
-- **event_participants**: Many-to-many relationship between users and events
-- **google_calendar_sync**: Tracking Google Calendar synchronization
+## 📡 API Endpoints
 
-## API Routes
+**Authentication**
 
-### Authentication
-- `POST /api/auth/signup` - User registration
-- `POST /api/auth/signin` - User login
-- `POST /api/auth/signout` - User logout
+* `POST /api/auth/signup` – Register
+* `POST /api/auth/signin` – Login
+* `POST /api/auth/signout` – Logout
 
-### Events
-- `GET /api/events` - Get all events
-- `POST /api/events` - Create new event
-- `GET /api/events/[id]` - Get event by ID
-- `PUT /api/events/[id]` - Update event
-- `DELETE /api/events/[id]` - Delete event
+**Events**
 
-### Participation
-- `POST /api/events/[id]/join` - Join an event
-- `POST /api/events/[id]/leave` - Leave an event
-- `GET /api/events/[id]/participants` - Get event participants
+* `GET /api/events` – All events
+* `POST /api/events` – Create event
+* `GET /api/events/[id]` – Event by ID
+* `PUT /api/events/[id]` – Update event
+* `DELETE /api/events/[id]` – Delete event
 
-### Google Calendar
-- `POST /api/google/sync` - Sync with Google Calendar
-- `GET /api/google/events` - Get Google Calendar events
+**Participation**
 
-## Google Calendar API Setup
+* `POST /api/events/[id]/join` – Join event
+* `POST /api/events/[id]/leave` – Leave event
+* `GET /api/events/[id]/participants` – Event participants
+
+**Google Calendar**
+
+* `POST /api/google/sync` – Sync with Google Calendar
+* `GET /api/google/events` – Get Google Calendar events
+
+## 🔑 Google Calendar API Setup
 
 1. Go to [Google Cloud Console](https://console.cloud.google.com/)
-2. Create a new project or select an existing one
-3. Enable the Google Calendar API
+2. Create/select a project
+3. Enable Google Calendar API
 4. Create OAuth 2.0 credentials
 5. Add authorized redirect URIs:
-   - `http://localhost:3000/api/auth/callback/google` (development)
-   - `https://yourdomain.com/api/auth/callback/google` (production)
-6. Download the credentials and add them to your environment variables
 
-## Deployment
+   * Development: `http://localhost:3000/api/auth/callback/google`
+   * Production: `https://yourdomain.com/api/auth/callback/google`
+6. Add credentials to `.env.local`
 
-### Vercel (Recommended)
+## 🚀 Deployment
+
+**Vercel (Recommended)**
 
 1. Push your code to GitHub
-2. Connect your repository to Vercel
-3. Add environment variables in Vercel dashboard
+2. Connect to Vercel
+3. Add environment variables
 4. Deploy
 
-### Manual Deployment
+**Manual**
 
-1. Build the application:
 ```bash
 npm run build
-```
-
-2. Start the production server:
-```bash
 npm start
 ```
 
-## Development Commands
-
-```bash
-# Development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Start production server
-npm start
-
-# Run linting
-npm run lint
-
-# Database operations
-npm run db:push          # Push schema changes
-npm run db:studio        # Open Drizzle Studio
-npm run db:generate      # Generate migrations
-npm run db:migrate       # Run migrations
-```
-
-## Project Structure
+## 🧩 Project Structure
 
 ```
-├── app/                 # Next.js app directory
-│   ├── api/            # API routes
-│   ├── auth/           # Authentication pages
-│   ├── events/         # Event pages
-│   └── dashboard/      # Dashboard pages
-├── components/         # React components
-├── lib/               # Utility functions
-├── db/                # Database schema and config
-├── types/             # TypeScript types
-├── public/            # Static assets
-└── styles/            # Global styles
+├── app/              # App directory
+│   ├── api/          # API routes
+│   ├── auth/         # Auth pages
+│   ├── events/       # Event pages
+│   └── dashboard/    # Dashboard
+├── components/       # UI components
+├── lib/              # Utilities
+├── db/               # Database schema/config
+├── types/            # TypeScript types
+├── public/           # Static assets
+└── styles/           # Global styles
 ```
 
-## Contributing
+## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/new-feature`
-3. Commit your changes: `git commit -m 'Add new feature'`
-4. Push to the branch: `git push origin feature/new-feature`
-5. Submit a pull request
+1. Fork the repo
+2. Create a branch: `git checkout -b feature/awesome-feature`
+3. Commit changes: `git commit -m 'Add awesome feature'`
+4. Push: `git push origin feature/awesome-feature`
+5. Open a PR
 
-## License
+## 📜 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-## Support
+## 💬 Support
 
-For support, please open an issue on GitHub or contact [your-email@example.com](mailto:your-email@example.com).
+For help, open an issue on GitHub or email [your-email@example.com](mailto:your-email@example.com)
 
-## Acknowledgments
+## 🙌 Acknowledgments
 
-- Next.js team for the amazing framework
-- Neon for the serverless PostgreSQL database
-- Drizzle team for the excellent ORM
-- Google for the Calendar API
-- All contributors who help improve this project
+* **Next.js** for the framework
+* **Neon** for the serverless PostgreSQL
+* **Drizzle ORM** for database magic
+* **Google** for Calendar API
+* All contributors making this app better!
